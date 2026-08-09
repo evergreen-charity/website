@@ -94,15 +94,14 @@ export default function App() {
           className="mt-4 w-full max-w-[260px] h-px bg-primary/20 origin-center"
         />
 
-        {/* Subtitle */}
+        {/* Tagline */}
         <motion.p
           initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-4 max-w-[380px] text-[0.88rem] md:text-[0.95rem] leading-relaxed font-sans"
-          style={{ color: 'hsl(var(--foreground) / 0.6)', letterSpacing: '0.01em' }}
+          className="mt-4 font-mono text-[0.75rem] tracking-[0.3em] uppercase"
+          style={{ color: 'hsl(var(--primary) / 0.65)' }}
         >
-          Endow permanent charitable funds for perpetual giving.
-          Grant now, or invest and grant over time.
+          Keep the lights on
         </motion.p>
 
         {/* Email */}
