@@ -14,7 +14,7 @@ export default function App() {
       <motion.header
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 2, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         className="flex justify-between items-start uppercase tracking-[0.2em] text-[0.65rem] md:text-xs text-muted-foreground z-10"
       >
         <div className="border border-border/60 px-4 py-2 rounded-none backdrop-blur-sm tracking-[0.25em] relative">
@@ -34,9 +34,9 @@ export default function App() {
       {/* Main Center */}
       <main className="flex-1 flex flex-col items-center justify-center z-10 relative">
         <motion.div
-          initial={{ opacity: 0, scale: 0.98, filter: 'blur(5px)' }}
-          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-          transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, ease: 'easeOut', delay: 0.1 }}
           className="text-center w-full"
         >
           <h1 className="font-serif text-[3.2rem] sm:text-6xl md:text-8xl lg:text-[9rem] xl:text-[11rem] leading-[0.85] tracking-tight text-foreground flex flex-col items-center">
@@ -49,7 +49,7 @@ export default function App() {
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 2, delay: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
             className="flex items-center justify-center gap-4 mt-8 md:mt-16 max-w-2xl mx-auto"
           >
             <div className="h-[1px] w-8 md:w-16 bg-primary/30" />
@@ -64,7 +64,7 @@ export default function App() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 2, ease: "easeOut", delay: 1.5 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
           className="w-full max-w-[800px] mx-auto mt-20 md:mt-32 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 border-y border-border/40 py-8 relative before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-primary/5 before:to-transparent"
         >
           {[
@@ -88,7 +88,7 @@ export default function App() {
       <motion.footer
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 2, ease: "easeOut", delay: 2 }}
+        transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
         className="w-full flex justify-center z-10 pb-4 md:pb-0"
       >
         <div className="w-full max-w-sm">
