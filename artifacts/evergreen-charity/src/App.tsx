@@ -29,29 +29,28 @@ function LogoA({ size = 36 }: { size?: number }) {
   );
 }
 
-// B — Stacked Forest: three evergreen triangles receding into distance,
-//     each smaller and fainter — a forest going on forever
+// B — Forest treeline: three distinct pine trees side by side,
+//     tallest in the centre — immediately readable as a forest mark
 function LogoB({ size = 36 }: { size?: number }) {
+  const base = 37;
   const trees = [
-    { ay: 7,  hw: 12, by: 35, o: 1,    sw: 1.3 },
-    { ay: 13, hw: 8,  by: 35, o: 0.5,  sw: 1.0 },
-    { ay: 18, hw: 5,  by: 35, o: 0.25, sw: 0.8 },
+    { cx: 12, apex: 15, hw: 7,  trunk: 5 },  // left — shorter
+    { cx: 24, apex: 5,  hw: 10, trunk: 6 },  // centre — tallest
+    { cx: 36, apex: 17, hw: 7,  trunk: 5 },  // right — mid
   ];
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-      {[...trees].reverse().map((t, i) => (
-        <g key={i}>
+      {trees.map((t) => (
+        <g key={t.cx} stroke="currentColor" strokeLinejoin="round" strokeLinecap="round">
           <polygon
-            points={`24,${t.ay} ${24 - t.hw},${t.by} ${24 + t.hw},${t.by}`}
-            stroke="currentColor" strokeWidth={t.sw} strokeOpacity={t.o}
-            strokeLinejoin="round" fill="none"
+            points={`${t.cx},${t.apex} ${t.cx - t.hw},${base} ${t.cx + t.hw},${base}`}
+            strokeWidth="1.3" fill="none"
           />
-          <line x1="24" y1={t.by} x2="24" y2={t.by + 5}
-            stroke="currentColor" strokeWidth={t.sw * 0.8}
-            strokeOpacity={t.o} strokeLinecap="round"
-          />
+          <line x1={t.cx} y1={base} x2={t.cx} y2={base + t.trunk} strokeWidth="1.1" />
         </g>
       ))}
+      {/* shared ground line */}
+      <line x1="4" y1={base + 6} x2="44" y2={base + 6} stroke="currentColor" strokeWidth="0.8" strokeOpacity="0.35" />
     </svg>
   );
 }
@@ -132,19 +131,6 @@ export default function App() {
 
       {/* ── Main ── */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-12 text-center">
-
-        {/* Small label above — typewriter feel */}
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex items-center gap-3 mb-5 md:mb-7"
-        >
-          <div className="h-px w-8 bg-primary/30" />
-          <span className="font-mono text-[0.55rem] tracking-[0.35em] uppercase text-primary/60">
-            Est. 2024
-          </span>
-          <div className="h-px w-8 bg-primary/30" />
-        </motion.div>
 
         {/* Wordmark — Fraunces italic, big personality */}
         <motion.h1
