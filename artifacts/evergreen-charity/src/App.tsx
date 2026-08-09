@@ -29,28 +29,31 @@ function LogoA({ size = 36 }: { size?: number }) {
   );
 }
 
-// B — Forest treeline: three distinct pine trees side by side,
-//     tallest in the centre — immediately readable as a forest mark
+// B — 3D stacked trees: four pines receding into depth, all centred,
+//     each smaller + higher + fainter — reads as a stack going back in space
 function LogoB({ size = 36 }: { size?: number }) {
-  const base = 37;
+  // back → front order for drawing (front drawn last, on top)
   const trees = [
-    { cx: 12, apex: 15, hw: 7,  trunk: 5 },  // left — shorter
-    { cx: 24, apex: 5,  hw: 10, trunk: 6 },  // centre — tallest
-    { cx: 36, apex: 17, hw: 7,  trunk: 5 },  // right — mid
+    { apex: 4,  hw: 5,   base: 17, o: 0.22, sw: 0.8 },
+    { apex: 11, hw: 7,   base: 24, o: 0.42, sw: 1.0 },
+    { apex: 18, hw: 9,   base: 32, o: 0.68, sw: 1.15 },
+    { apex: 25, hw: 11,  base: 41, o: 1.0,  sw: 1.35 },
   ];
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-      {trees.map((t) => (
-        <g key={t.cx} stroke="currentColor" strokeLinejoin="round" strokeLinecap="round">
+      {trees.map((t, i) => (
+        <g key={i} stroke="currentColor" strokeOpacity={t.o}
+           strokeLinejoin="round" strokeLinecap="round">
           <polygon
-            points={`${t.cx},${t.apex} ${t.cx - t.hw},${base} ${t.cx + t.hw},${base}`}
-            strokeWidth="1.3" fill="none"
+            points={`24,${t.apex} ${24 - t.hw},${t.base} ${24 + t.hw},${t.base}`}
+            strokeWidth={t.sw} fill="none"
           />
-          <line x1={t.cx} y1={base} x2={t.cx} y2={base + t.trunk} strokeWidth="1.1" />
+          {/* Only the front tree gets a trunk */}
+          {i === trees.length - 1 && (
+            <line x1="24" y1={t.base} x2="24" y2={t.base + 4} strokeWidth={t.sw * 0.75} />
+          )}
         </g>
       ))}
-      {/* shared ground line */}
-      <line x1="4" y1={base + 6} x2="44" y2={base + 6} stroke="currentColor" strokeWidth="0.8" strokeOpacity="0.35" />
     </svg>
   );
 }
