@@ -53,7 +53,7 @@ export default function App() {
 
       {/* Grid */}
       <div className="absolute inset-0 pointer-events-none" style={{
-        backgroundImage: `linear-gradient(hsl(var(--grid-line) / 0.5) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--grid-line) / 0.5) 1px, transparent 1px)`,
+        backgroundImage: `linear-gradient(hsl(var(--grid-line) / 0.28) 0.5px, transparent 0.5px), linear-gradient(90deg, hsl(var(--grid-line) / 0.28) 0.5px, transparent 0.5px)`,
         backgroundSize: '64px 64px',
       }} />
 
@@ -62,23 +62,15 @@ export default function App() {
         background: 'radial-gradient(ellipse 60% 55% at 50% 44%, hsl(var(--glow)) 0%, transparent 70%)'
       }} />
 
-      {/* Porch light — top-right corner, warm amber against the cold grid */}
+      {/* Porch light beam — full-page radial anchored at the lamp head */}
+      <div className="absolute inset-0 pointer-events-none z-10" style={{
+        background: 'radial-gradient(ellipse 85% 75% at 95% 11%, hsl(152 90% 50% / 0.13) 0%, hsl(152 90% 50% / 0.06) 35%, transparent 68%)'
+      }} />
+
+      {/* Porch light fixture — top-right corner */}
       <div className="absolute top-0 right-0 pointer-events-none z-10" style={{ width: 160, height: 420 }}>
         <svg width="160" height="420" viewBox="0 0 160 420" fill="none">
-          <defs>
-            <radialGradient id="porchGlow" cx="50%" cy="0%" r="100%" gradientUnits="userSpaceOnUse"
-              fx="78" fy="112">
-              <stop offset="0%"   stopColor="hsl(42,95%,68%)" stopOpacity="0.22" />
-              <stop offset="40%"  stopColor="hsl(42,95%,68%)" stopOpacity="0.09" />
-              <stop offset="100%" stopColor="hsl(42,95%,68%)" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-
-          {/* Light cone — soft triangle spilling down-left from lantern */}
-          <polygon
-            points="78,112 -40,420 200,420"
-            fill="url(#porchGlow)"
-          />
+          <defs></defs>
 
           {/* Wall bracket — mounted to right edge */}
           <rect x="130" y="14" width="30" height="6" fill="currentColor" fillOpacity="0.35" />
@@ -94,7 +86,7 @@ export default function App() {
           {/* Lantern body — trapezoid shape */}
           <path d="M66,52 L90,52 L94,88 L62,88 Z"
             stroke="currentColor" strokeWidth="1.1" strokeOpacity="0.45"
-            fill="hsl(42,95%,68%)" fillOpacity="0.07" />
+            fill="hsl(152,90%,50%)" fillOpacity="0.07" />
 
           {/* Top cap */}
           <rect x="63" y="48" width="30" height="5"
@@ -106,13 +98,15 @@ export default function App() {
 
           {/* Bulb glow */}
           <circle cx="78" cy="70" r="5"
-            fill="hsl(42,95%,68%)" fillOpacity="0.75" />
+            fill="hsl(152,90%,50%)" fillOpacity="0.9"
+            style={{ animation: 'bulb-pulse 3s ease-in-out infinite' }} />
           <circle cx="78" cy="70" r="9"
-            fill="hsl(42,95%,68%)" fillOpacity="0.18" />
+            fill="hsl(152,90%,50%)" fillOpacity="0.2"
+            style={{ animation: 'bulb-pulse 3s ease-in-out infinite' }} />
 
           {/* Drip chain below fixture */}
           <line x1="78" y1="88" x2="78" y2="112"
-            stroke="hsl(42,95%,68%)" strokeWidth="0.8" strokeOpacity="0.3"
+            stroke="hsl(152,90%,50%)" strokeWidth="0.8" strokeOpacity="0.3"
             strokeDasharray="2 3" strokeLinecap="round" />
         </svg>
       </div>
@@ -124,7 +118,7 @@ export default function App() {
         <motion.div
           initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-primary mb-7"
+          className="text-primary mb-5"
         >
           <ForestMark size={120} />
         </motion.div>
@@ -133,7 +127,7 @@ export default function App() {
         <motion.h1
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-semibold leading-[0.88] text-foreground uppercase"
+          className="font-display font-semibold leading-[0.88] uppercase"
           style={{
             fontSize: 'clamp(2rem, 5vw, 4rem)',
             letterSpacing: '0.08em',
@@ -146,14 +140,14 @@ export default function App() {
         <motion.div
           initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
           transition={{ duration: 0.7, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-4 w-full max-w-[260px] h-px bg-primary/20 origin-center"
+          className="mt-3 w-full max-w-[260px] h-px bg-primary/20 origin-center"
         />
 
         {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-4 max-w-[380px] text-[0.88rem] md:text-[0.95rem] leading-relaxed font-sans"
+          className="mt-3 max-w-[380px] text-[0.88rem] md:text-[0.95rem] leading-relaxed font-sans"
           style={{ color: 'hsl(var(--foreground) / 0.6)', letterSpacing: '0.01em' }}
         >
           Endow permanent charitable funds for perpetual giving.
@@ -164,7 +158,7 @@ export default function App() {
         <motion.div
           initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.58 }}
-          className="mt-6 w-full max-w-[270px]"
+          className="mt-5 w-full max-w-[270px]"
         >
           {submitted ? (
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
@@ -173,11 +167,11 @@ export default function App() {
             </motion.p>
           ) : (
             <form onSubmit={(e) => { e.preventDefault(); if (email) setSubmitted(true); }}
-              className="flex border-b border-border/60 focus-within:border-primary/60 transition-colors duration-500 pb-1 select-text">
+              className="flex border-b border-border/50 focus-within:border-primary/50 transition-colors duration-500 pb-1 select-text">
               <input type="email" value={email} onChange={e => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
-                className="flex-1 bg-transparent py-2.5 font-mono text-[0.85rem] outline-none placeholder:text-muted-foreground/40 text-foreground tracking-wide" />
+                className="flex-1 bg-transparent py-2.5 font-mono text-[0.85rem] outline-none placeholder:text-foreground/50 text-foreground tracking-wide" />
               <button type="submit"
                 className="pl-5 font-mono text-[0.65rem] tracking-[0.2em] uppercase text-muted-foreground/60 hover:text-primary transition-colors duration-300">
                 Waitlist

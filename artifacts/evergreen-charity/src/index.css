@@ -179,6 +179,11 @@
   }
 }
 
+@keyframes bulb-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
+}
+
 @layer utilities {
   .font-display {
     font-family: var(--font-display, var(--font-sans));
