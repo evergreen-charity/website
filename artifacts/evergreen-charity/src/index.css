@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,600;9..144,1,300;9..144,1,600&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -133,10 +133,10 @@
   --chart-4: 180 25% 20%;
   --chart-5: 140 15% 45%;
 
-  --app-font-sans: 'Space Grotesk', sans-serif;
-  --app-font-serif: 'Space Grotesk', sans-serif;
-  --app-font-mono: 'Space Mono', monospace;
-  --app-font-display: 'Space Grotesk', sans-serif;
+  --app-font-sans: 'Instrument Serif', serif;
+  --app-font-serif: 'Fraunces', serif;
+  --app-font-mono: 'DM Mono', monospace;
+  --app-font-display: 'Fraunces', serif;
   --radius: 0rem; /* Architectural, sharp edges */
 
   --shadow-2xs: 0px 2px 0px 0px hsl(160 15% 2% / 0.2);

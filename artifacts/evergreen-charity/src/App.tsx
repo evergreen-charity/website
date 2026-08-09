@@ -1,179 +1,266 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
-const PILLARS = [
-  { id: 'I', label: 'Perpetual Funds' },
-  { id: 'II', label: 'Ethical Investments' },
-  { id: 'III', label: 'Tax-Advantaged Giving' },
+// ─── Logos ────────────────────────────────────────────────────────────────────
+
+// A — Loop Arrow: diagonal upward line that loops once then arrows upward —
+//     perpetual momentum, giving that never stops rising
+function LogoA({ size = 36 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      {/* Ascending path with one loop — enters from lower-left,
+          curves up, circles around, exits upward to arrow tip */}
+      <path
+        d="M 9,42
+           C 11,35 15,29 19,26
+           C 21,24 23,22 23,20
+           C 23,16 19,13 16,16
+           C 13,19 14,24 18,26
+           C 22,28 27,24 28,20
+           C 29,16 28,12 30,9
+           L 36,5"
+        stroke="currentColor" strokeWidth="1.4" fill="none"
+      />
+      {/* Arrowhead at top-right */}
+      <path d="M 31,5 L 36,5 L 35,10"
+        stroke="currentColor" strokeWidth="1.3" fill="none"
+      />
+    </svg>
+  );
+}
+
+// B — Stacked Forest: three evergreen triangles receding into distance,
+//     each smaller and fainter — a forest going on forever
+function LogoB({ size = 36 }: { size?: number }) {
+  const trees = [
+    { ay: 7,  hw: 12, by: 35, o: 1,    sw: 1.3 },
+    { ay: 13, hw: 8,  by: 35, o: 0.5,  sw: 1.0 },
+    { ay: 18, hw: 5,  by: 35, o: 0.25, sw: 0.8 },
+  ];
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+      {[...trees].reverse().map((t, i) => (
+        <g key={i}>
+          <polygon
+            points={`24,${t.ay} ${24 - t.hw},${t.by} ${24 + t.hw},${t.by}`}
+            stroke="currentColor" strokeWidth={t.sw} strokeOpacity={t.o}
+            strokeLinejoin="round" fill="none"
+          />
+          <line x1="24" y1={t.by} x2="24" y2={t.by + 5}
+            stroke="currentColor" strokeWidth={t.sw * 0.8}
+            strokeOpacity={t.o} strokeLinecap="round"
+          />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// C — Stacked Rings: concentric circles fading inward — tree rings, forever
+function LogoC({ size = 36 }: { size?: number }) {
+  const rings = [21, 17, 13.5, 10.5, 8, 5.5, 3.2];
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+      {rings.map((r, i) => (
+        <circle key={r} cx="24" cy="24" r={r}
+          stroke="currentColor"
+          strokeWidth={i === 0 ? 1.4 : 1}
+          strokeOpacity={Math.max(0.12, 1 - i * 0.13)}
+        />
+      ))}
+      <circle cx="24" cy="24" r="1.2" fill="currentColor" fillOpacity="0.45" />
+    </svg>
+  );
+}
+
+const LOGOS = [
+  { id: 'A', label: 'Loop',   Component: LogoA },
+  { id: 'B', label: 'Forest', Component: LogoB },
+  { id: 'C', label: 'Rings',  Component: LogoC },
 ];
+
+const BRAND_COLORS = [
+  { label: 'Void',   hex: '#0c0f0d' },
+  { label: 'Grove',  hex: '#4a8c68' },
+  { label: 'Ivory',  hex: '#e8e4d9' },
+  { label: 'Lichen', hex: '#7a9b85' },
+];
+
+// ─── App ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [selected, setSelected] = useState('B');
+
+  const ActiveLogo = LOGOS.find(l => l.id === selected)!.Component;
 
   return (
-    <div className="min-h-[100dvh] w-full overflow-hidden bg-background text-foreground flex flex-col relative select-none">
+    <div className="h-[100dvh] w-full overflow-hidden bg-background text-foreground flex flex-col relative select-none">
 
-      {/* Background grid */}
-      <div
-        className="absolute inset-0 pointer-events-none"
+      {/* Grain texture overlay */}
+      <div className="absolute inset-0 pointer-events-none z-20 opacity-[0.035]"
         style={{
-          backgroundImage: `
-            linear-gradient(to right, hsl(var(--grid-line)) 1px, transparent 1px),
-            linear-gradient(to bottom, hsl(var(--grid-line)) 1px, transparent 1px)
-          `,
-          backgroundSize: '80px 80px',
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: '200px 200px',
         }}
       />
 
-      {/* Radial glow from center */}
+      {/* Subtle warm vignette */}
       <div className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 70% 60% at 50% 40%, hsl(var(--glow)) 0%, transparent 70%)'
+          background: 'radial-gradient(ellipse 80% 70% at 50% 42%, hsl(var(--glow)) 0%, transparent 72%)'
         }}
       />
 
-      {/* Top bar */}
+      {/* ── Header ── */}
       <motion.header
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        className="relative z-10 flex items-center justify-between px-6 md:px-10 pt-6 md:pt-8"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+        transition={{ duration: 0.7 }}
+        className="relative z-10 flex items-center justify-between px-7 md:px-12 py-5 md:py-6"
       >
         <div className="flex items-center gap-3">
-          {/* Logo mark — two interlocked rings */}
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-primary">
-            <circle cx="8" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.2" />
-            <circle cx="14" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.2" />
-          </svg>
-          <span className="font-mono text-[0.65rem] tracking-[0.25em] uppercase text-muted-foreground">
-            Evergreen
+          <span className="text-primary opacity-80"><ActiveLogo size={20} /></span>
+          <span className="font-mono text-[0.58rem] tracking-[0.22em] uppercase text-muted-foreground">
+            Evergreen Charity
           </span>
         </div>
-
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-          <span className="font-mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">
-            Coming Soon
-          </span>
-        </div>
+        {/* Handwritten-feel rule on right */}
+        <div className="h-px w-16 md:w-24 bg-border/30" />
       </motion.header>
 
-      {/* Main content */}
+      {/* ── Main ── */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-12 text-center">
 
-        {/* Wordmark */}
+        {/* Small label above — typewriter feel */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="flex items-center gap-3 mb-5 md:mb-7"
         >
-          <h1
-            className="font-display font-semibold leading-none tracking-tighter text-foreground"
-            style={{ fontSize: 'clamp(3.2rem, 10vw, 9rem)' }}
-          >
-            EVERGREEN<br />
-            <span className="text-primary">CHARITY</span>
-          </h1>
+          <div className="h-px w-8 bg-primary/30" />
+          <span className="font-mono text-[0.55rem] tracking-[0.35em] uppercase text-primary/60">
+            Est. 2024
+          </span>
+          <div className="h-px w-8 bg-primary/30" />
         </motion.div>
 
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.35 }}
-          className="mt-6 md:mt-8 max-w-xl text-sm md:text-base text-muted-foreground font-light leading-relaxed tracking-wide"
+        {/* Wordmark — Fraunces italic, big personality */}
+        <motion.h1
+          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+          className="font-display font-semibold leading-[0.88] text-foreground"
+          style={{
+            fontSize: 'clamp(2.8rem, 7.5vw, 6.5rem)',
+            letterSpacing: '0.06em',
+            fontStyle: 'italic',
+          }}
         >
-          Endow — permanent charitable funds for perpetual giving.
-          <br className="hidden md:block" />
-          {' '}Grant now, or invest and grant over time.
+          Evergreen<br />
+          <span className="text-primary not-italic" style={{ letterSpacing: '0.08em' }}>Charity</span>
+        </motion.h1>
+
+        {/* Thin ornamental rule */}
+        <motion.div
+          initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
+          transition={{ duration: 0.7, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-5 w-full max-w-[320px] flex items-center gap-2 origin-center"
+        >
+          <div className="flex-1 h-px bg-border/40" />
+          <span className="text-primary/40 text-[0.6rem] leading-none">✦</span>
+          <div className="flex-1 h-px bg-border/40" />
+        </motion.div>
+
+        {/* Subtitle — Instrument Serif, reads like prose */}
+        <motion.p
+          initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.46 }}
+          className="mt-4 max-w-[400px] text-[0.88rem] md:text-[0.95rem] leading-relaxed font-sans"
+          style={{ fontStyle: 'italic', color: 'hsl(var(--foreground) / 0.7)', letterSpacing: '0.01em' }}
+        >
+          Endow permanent charitable funds for perpetual giving.
+          Grant now, or invest and grant over time.
         </motion.p>
 
-        {/* Divider line */}
+        {/* Email */}
         <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-8 md:mt-12 w-px h-10 bg-gradient-to-b from-primary/60 to-transparent origin-top"
-        />
-
-        {/* Three pillars */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.65 }}
-          className="mt-8 md:mt-10 flex flex-col md:flex-row items-center gap-4 md:gap-0"
-        >
-          {PILLARS.map((p, i) => (
-            <div key={p.id} className="flex items-center gap-4 md:gap-0">
-              <div className="flex flex-col items-center group">
-                <span className="font-mono text-[0.5rem] tracking-[0.3em] text-primary/50 mb-1">
-                  {p.id}
-                </span>
-                <span className="font-mono text-xs tracking-[0.2em] uppercase text-foreground/50 group-hover:text-foreground/80 transition-colors duration-500">
-                  {p.label}
-                </span>
-              </div>
-              {i < PILLARS.length - 1 && (
-                <div className="hidden md:block w-[1px] h-6 bg-border/50 mx-8 md:mx-12" />
-              )}
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Email capture */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-10 md:mt-14 w-full max-w-sm"
+          initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.58 }}
+          className="mt-6 w-full max-w-[270px]"
         >
           {submitted ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="h-11 flex items-center justify-center border border-primary/30 bg-primary/5 font-mono text-xs tracking-[0.2em] uppercase text-primary"
-            >
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              className="font-mono text-[0.6rem] tracking-[0.25em] uppercase text-primary/70 py-3 border-b border-primary/20">
               We'll be in touch.
-            </motion.div>
+            </motion.p>
           ) : (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (email) setSubmitted(true);
-              }}
-              className="flex h-11 border border-border/50 bg-background/60 backdrop-blur-sm focus-within:border-primary/60 transition-colors duration-500"
-            >
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+            <form onSubmit={(e) => { e.preventDefault(); if (email) setSubmitted(true); }}
+              className="flex border-b border-border/50 focus-within:border-primary/50 transition-colors duration-500 pb-px">
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)}
                 placeholder="Your email"
                 required
-                className="flex-1 bg-transparent px-4 font-mono text-xs outline-none placeholder:text-muted-foreground/30 text-foreground tracking-wide"
-              />
-              <button
-                type="submit"
-                className="px-6 font-mono text-[0.6rem] tracking-[0.2em] uppercase text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all duration-400 border-l border-border/50"
-              >
+                className="flex-1 bg-transparent py-2 font-mono text-[0.7rem] outline-none placeholder:text-muted-foreground/25 text-foreground tracking-wide" />
+              <button type="submit"
+                className="pl-4 font-mono text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground/50 hover:text-primary transition-colors duration-300">
                 Waitlist
               </button>
             </form>
           )}
         </motion.div>
+
+        {/* Logo chooser */}
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
+          className="mt-8 md:mt-10 flex flex-col items-center gap-3"
+        >
+          <span className="font-mono text-[0.46rem] tracking-[0.3em] uppercase text-muted-foreground/25">
+            Mark Options
+          </span>
+          <div className="flex gap-2">
+            {LOGOS.map((logo) => {
+              const active = selected === logo.id;
+              return (
+                <button key={logo.id} onClick={() => setSelected(logo.id)}
+                  className={`group flex flex-col items-center gap-1.5 py-3 px-5 border transition-all duration-400 ${
+                    active
+                      ? 'border-primary/40 bg-primary/5'
+                      : 'border-border/20 hover:border-border/40'
+                  }`}
+                >
+                  <span className={`transition-colors duration-300 ${active ? 'text-primary' : 'text-foreground/25 group-hover:text-foreground/50'}`}>
+                    <logo.Component size={30} />
+                  </span>
+                  <span className="font-mono text-[0.44rem] tracking-[0.15em] uppercase"
+                    style={{ color: active ? 'hsl(var(--primary) / 0.55)' : 'hsl(var(--muted-foreground) / 0.3)' }}>
+                    {logo.id} · {logo.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </motion.div>
       </main>
 
-      {/* Bottom bar */}
+      {/* ── Footer ── */}
       <motion.footer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.9 }}
-        className="relative z-10 flex items-center justify-between px-6 md:px-10 pb-6 md:pb-8"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.8 }}
+        className="relative z-10 flex items-center justify-between px-7 md:px-12 py-4 md:py-5"
       >
-        <span className="font-mono text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground/30">
-          &copy; 2024 Evergreen Charity
-        </span>
-        <span className="font-mono text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground/30">
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-[0.44rem] tracking-[0.25em] uppercase text-muted-foreground/20 mr-1">Brand</span>
+          {BRAND_COLORS.map(c => (
+            <div key={c.label} title={c.label} className="w-3.5 h-3.5 border border-white/5"
+              style={{ backgroundColor: c.hex }} />
+          ))}
+          <div className="w-px h-3 bg-border/20 mx-1.5" />
+          <span className="font-mono text-[0.44rem] tracking-[0.1em] uppercase text-muted-foreground/20">
+            Fraunces · Instrument Serif · DM Mono
+          </span>
+        </div>
+        <span className="font-mono text-[0.44rem] tracking-[0.15em] uppercase text-muted-foreground/15">
           Donor Advised Fund
         </span>
       </motion.footer>
