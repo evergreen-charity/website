@@ -62,6 +62,61 @@ export default function App() {
         background: 'radial-gradient(ellipse 60% 55% at 50% 44%, hsl(var(--glow)) 0%, transparent 70%)'
       }} />
 
+      {/* Porch light — top-right corner, warm amber against the cold grid */}
+      <div className="absolute top-0 right-0 pointer-events-none z-10" style={{ width: 160, height: 420 }}>
+        <svg width="160" height="420" viewBox="0 0 160 420" fill="none">
+          <defs>
+            <radialGradient id="porchGlow" cx="50%" cy="0%" r="100%" gradientUnits="userSpaceOnUse"
+              fx="78" fy="112">
+              <stop offset="0%"   stopColor="hsl(42,95%,68%)" stopOpacity="0.22" />
+              <stop offset="40%"  stopColor="hsl(42,95%,68%)" stopOpacity="0.09" />
+              <stop offset="100%" stopColor="hsl(42,95%,68%)" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+
+          {/* Light cone — soft triangle spilling down-left from lantern */}
+          <polygon
+            points="78,112 -40,420 200,420"
+            fill="url(#porchGlow)"
+          />
+
+          {/* Wall bracket — mounted to right edge */}
+          <rect x="130" y="14" width="30" height="6" fill="currentColor" fillOpacity="0.35" />
+
+          {/* Arm extending inward */}
+          <line x1="130" y1="17" x2="78" y2="17"
+            stroke="currentColor" strokeWidth="1.4" strokeOpacity="0.45" strokeLinecap="round" />
+
+          {/* Vertical drop to fixture */}
+          <line x1="78" y1="17" x2="78" y2="52"
+            stroke="currentColor" strokeWidth="1.2" strokeOpacity="0.4" strokeLinecap="round" />
+
+          {/* Lantern body — trapezoid shape */}
+          <path d="M66,52 L90,52 L94,88 L62,88 Z"
+            stroke="currentColor" strokeWidth="1.1" strokeOpacity="0.45"
+            fill="hsl(42,95%,68%)" fillOpacity="0.07" />
+
+          {/* Top cap */}
+          <rect x="63" y="48" width="30" height="5"
+            fill="currentColor" fillOpacity="0.35" />
+
+          {/* Bottom vent */}
+          <line x1="64" y1="88" x2="92" y2="88"
+            stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
+
+          {/* Bulb glow */}
+          <circle cx="78" cy="70" r="5"
+            fill="hsl(42,95%,68%)" fillOpacity="0.75" />
+          <circle cx="78" cy="70" r="9"
+            fill="hsl(42,95%,68%)" fillOpacity="0.18" />
+
+          {/* Drip chain below fixture */}
+          <line x1="78" y1="88" x2="78" y2="112"
+            stroke="hsl(42,95%,68%)" strokeWidth="0.8" strokeOpacity="0.3"
+            strokeDasharray="2 3" strokeLinecap="round" />
+        </svg>
+      </div>
+
       {/* ── Main ── */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-12 text-center">
 
