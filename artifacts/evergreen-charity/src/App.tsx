@@ -150,15 +150,14 @@ export default function App() {
         <motion.h1
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-semibold leading-[0.88] text-foreground"
+          className="font-display font-semibold leading-[0.88] text-foreground uppercase"
           style={{
             fontSize: 'clamp(2.8rem, 7.5vw, 6.5rem)',
             letterSpacing: '0.06em',
-            fontStyle: 'italic',
           }}
         >
           Evergreen<br />
-          <span className="text-primary not-italic" style={{ letterSpacing: '0.08em' }}>Charity</span>
+          <span className="text-primary" style={{ letterSpacing: '0.08em' }}>Charity</span>
         </motion.h1>
 
         {/* Thin ornamental rule */}
@@ -177,7 +176,7 @@ export default function App() {
           initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.46 }}
           className="mt-4 max-w-[400px] text-[0.88rem] md:text-[0.95rem] leading-relaxed font-sans"
-          style={{ fontStyle: 'italic', color: 'hsl(var(--foreground) / 0.7)', letterSpacing: '0.01em' }}
+          style={{ color: 'hsl(var(--foreground) / 0.6)', letterSpacing: '0.01em' }}
         >
           Endow permanent charitable funds for perpetual giving.
           Grant now, or invest and grant over time.
