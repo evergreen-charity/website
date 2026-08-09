@@ -49,7 +49,7 @@ export default function App() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <div className="h-[100dvh] w-full overflow-hidden bg-background text-foreground flex flex-col relative select-none">
+    <div className="h-[100dvh] w-full overflow-hidden bg-background text-foreground flex flex-col relative">
 
       {/* Grid */}
       <div className="absolute inset-0 pointer-events-none" style={{
