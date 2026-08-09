@@ -1,102 +1,138 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
+const PILLARS = [
+  { id: 'I', label: 'Perpetual Funds' },
+  { id: 'II', label: 'Ethical Investments' },
+  { id: 'III', label: 'Tax-Advantaged Giving' },
+];
+
 export default function App() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <div className="min-h-[100dvh] w-full overflow-hidden bg-background text-foreground flex flex-col justify-between p-6 md:p-12 font-sans selection:bg-primary selection:text-primary-foreground relative">
-      {/* Ambient Depth Gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-background to-background pointer-events-none" />
+    <div className="min-h-[100dvh] w-full overflow-hidden bg-background text-foreground flex flex-col relative select-none">
 
-      {/* Top Header */}
+      {/* Background grid */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, hsl(var(--grid-line)) 1px, transparent 1px),
+            linear-gradient(to bottom, hsl(var(--grid-line)) 1px, transparent 1px)
+          `,
+          backgroundSize: '80px 80px',
+        }}
+      />
+
+      {/* Radial glow from center */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 70% 60% at 50% 40%, hsl(var(--glow)) 0%, transparent 70%)'
+        }}
+      />
+
+      {/* Top bar */}
       <motion.header
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="flex justify-between items-start uppercase tracking-[0.2em] text-[0.65rem] md:text-xs text-muted-foreground z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="relative z-10 flex items-center justify-between px-6 md:px-10 pt-6 md:pt-8"
       >
-        <div className="border border-border/60 px-4 py-2 rounded-none backdrop-blur-sm tracking-[0.25em] relative">
-          Coming Soon
-          {/* Micro detailing: corner accents */}
-          <div className="absolute top-0 left-0 w-1 h-1 border-t border-l border-primary/50" />
-          <div className="absolute top-0 right-0 w-1 h-1 border-t border-r border-primary/50" />
-          <div className="absolute bottom-0 left-0 w-1 h-1 border-b border-l border-primary/50" />
-          <div className="absolute bottom-0 right-0 w-1 h-1 border-b border-r border-primary/50" />
+        <div className="flex items-center gap-3">
+          {/* Logo mark — two interlocked rings */}
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-primary">
+            <circle cx="8" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.2" />
+            <circle cx="14" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.2" />
+          </svg>
+          <span className="font-mono text-[0.65rem] tracking-[0.25em] uppercase text-muted-foreground">
+            Evergreen
+          </span>
         </div>
-        <div className="px-4 py-2 opacity-50 flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/80" />
-          Institution 001
+
+        <div className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+          <span className="font-mono text-[0.6rem] tracking-[0.25em] uppercase text-muted-foreground">
+            Coming Soon
+          </span>
         </div>
       </motion.header>
 
-      {/* Main Center */}
-      <main className="flex-1 flex flex-col items-center justify-center z-10 relative">
+      {/* Main content */}
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-12 text-center">
+
+        {/* Wordmark */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, ease: 'easeOut', delay: 0.1 }}
-          className="text-center w-full"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <h1 className="font-serif text-[3.2rem] sm:text-6xl md:text-8xl lg:text-[9rem] xl:text-[11rem] leading-[0.85] tracking-tight text-foreground flex flex-col items-center">
-            <span className="block text-primary/90 hover:text-primary transition-colors duration-1000 cursor-default">
-              EVERGREEN
-            </span>
-            <span className="block">CHARITY</span>
-          </h1>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex items-center justify-center gap-4 mt-8 md:mt-16 max-w-2xl mx-auto"
+          <h1
+            className="font-display font-semibold leading-none tracking-tighter text-foreground"
+            style={{ fontSize: 'clamp(3.2rem, 10vw, 9rem)' }}
           >
-            <div className="h-[1px] w-8 md:w-16 bg-primary/30" />
-            <p className="text-[0.65rem] md:text-sm tracking-[0.3em] uppercase text-muted-foreground font-light text-center">
-              Generational impact, rooted in permanence.
-            </p>
-            <div className="h-[1px] w-8 md:w-16 bg-primary/30" />
-          </motion.div>
+            EVERGREEN<br />
+            <span className="text-primary">CHARITY</span>
+          </h1>
         </motion.div>
 
-        {/* 3 Value Pillars */}
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="mt-6 md:mt-8 max-w-xl text-sm md:text-base text-muted-foreground font-light leading-relaxed tracking-wide"
+        >
+          Endow — permanent charitable funds for perpetual giving.
+          <br className="hidden md:block" />
+          {' '}Grant now, or invest and grant over time.
+        </motion.p>
+
+        {/* Divider line */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-8 md:mt-12 w-px h-10 bg-gradient-to-b from-primary/60 to-transparent origin-top"
+        />
+
+        {/* Three pillars */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
-          className="w-full max-w-[800px] mx-auto mt-20 md:mt-32 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 border-y border-border/40 py-8 relative before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-primary/5 before:to-transparent"
+          transition={{ duration: 0.6, delay: 0.65 }}
+          className="mt-8 md:mt-10 flex flex-col md:flex-row items-center gap-4 md:gap-0"
         >
-          {[
-            { title: 'Perpetual Funds', num: 'I' },
-            { title: 'Ethical Investments', num: 'II' },
-            { title: 'Tax-Advantaged Giving', num: 'III' }
-          ].map((item, i) => (
-            <div key={item.title} className="flex flex-col items-center md:border-r border-border/40 last:border-r-0 relative z-10 group">
-              <span className="text-[0.55rem] md:text-[0.65rem] tracking-[0.3em] uppercase text-primary/50 mb-3 font-serif">
-                {item.num}
-              </span>
-              <span className="text-sm md:text-base font-serif tracking-widest text-foreground/80 group-hover:text-foreground transition-colors duration-700">
-                {item.title}
-              </span>
+          {PILLARS.map((p, i) => (
+            <div key={p.id} className="flex items-center gap-4 md:gap-0">
+              <div className="flex flex-col items-center group">
+                <span className="font-mono text-[0.5rem] tracking-[0.3em] text-primary/50 mb-1">
+                  {p.id}
+                </span>
+                <span className="font-mono text-xs tracking-[0.2em] uppercase text-foreground/50 group-hover:text-foreground/80 transition-colors duration-500">
+                  {p.label}
+                </span>
+              </div>
+              {i < PILLARS.length - 1 && (
+                <div className="hidden md:block w-[1px] h-6 bg-border/50 mx-8 md:mx-12" />
+              )}
             </div>
           ))}
         </motion.div>
-      </main>
 
-      {/* Bottom Footer / Email Capture */}
-      <motion.footer
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
-        className="w-full flex justify-center z-10 pb-4 md:pb-0"
-      >
-        <div className="w-full max-w-sm">
+        {/* Email capture */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="mt-10 md:mt-14 w-full max-w-sm"
+        >
           {submitted ? (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="h-12 md:h-14 flex items-center justify-center border border-border/60 bg-primary/5 text-primary text-xs tracking-[0.2em] uppercase font-light"
+              className="h-11 flex items-center justify-center border border-primary/30 bg-primary/5 font-mono text-xs tracking-[0.2em] uppercase text-primary"
             >
               We'll be in touch.
             </motion.div>
@@ -106,7 +142,7 @@ export default function App() {
                 e.preventDefault();
                 if (email) setSubmitted(true);
               }}
-              className="flex h-12 md:h-14 border border-border/60 bg-background/40 backdrop-blur-md focus-within:border-primary/50 transition-colors duration-700"
+              className="flex h-11 border border-border/50 bg-background/60 backdrop-blur-sm focus-within:border-primary/60 transition-colors duration-500"
             >
               <input
                 type="email"
@@ -114,17 +150,32 @@ export default function App() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your email"
                 required
-                className="flex-1 bg-transparent px-6 text-sm outline-none placeholder:text-muted-foreground/30 text-foreground font-light tracking-wide"
+                className="flex-1 bg-transparent px-4 font-mono text-xs outline-none placeholder:text-muted-foreground/30 text-foreground tracking-wide"
               />
               <button
                 type="submit"
-                className="px-8 text-xs tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-500 border-l border-border/60 font-light"
+                className="px-6 font-mono text-[0.6rem] tracking-[0.2em] uppercase text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all duration-400 border-l border-border/50"
               >
-                Notify
+                Waitlist
               </button>
             </form>
           )}
-        </div>
+        </motion.div>
+      </main>
+
+      {/* Bottom bar */}
+      <motion.footer
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.9 }}
+        className="relative z-10 flex items-center justify-between px-6 md:px-10 pb-6 md:pb-8"
+      >
+        <span className="font-mono text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground/30">
+          &copy; 2024 Evergreen Charity
+        </span>
+        <span className="font-mono text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground/30">
+          Donor Advised Fund
+        </span>
       </motion.footer>
     </div>
   );
