@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Evergreen Charity"
+description = "A coming soon landing page for Evergreen Charity, a nonprofit donor advised fund offering perpetual charitable giving, ethical investment options, and community-focused financial vehicles. Single-viewport, no-scroll, minimal and futuristic design."
+version = "1.0.0"
+id = "artifacts/evergreen-charity"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18523
+
+[services.development]
+run = "pnpm --filter @workspace/evergreen-charity run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/evergreen-charity", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/evergreen-charity/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18523"
+BASE_PATH = "/"
