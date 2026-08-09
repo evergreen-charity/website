@@ -1,58 +1,29 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
-// ─── Logos ────────────────────────────────────────────────────────────────────
+// ─── Mark ─────────────────────────────────────────────────────────────────────
 
-// A — Loop Arrow: diagonal upward line that loops once then arrows upward —
-//     perpetual momentum, giving that never stops rising
-function LogoA({ size = 36 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" strokeLinecap="round" strokeLinejoin="round">
-      {/* Ascending path with one loop — enters from lower-left,
-          curves up, circles around, exits upward to arrow tip */}
-      <path
-        d="M 9,42
-           C 11,35 15,29 19,26
-           C 21,24 23,22 23,20
-           C 23,16 19,13 16,16
-           C 13,19 14,24 18,26
-           C 22,28 27,24 28,20
-           C 29,16 28,12 30,9
-           L 36,5"
-        stroke="currentColor" strokeWidth="1.4" fill="none"
-      />
-      {/* Arrowhead at top-right */}
-      <path d="M 31,5 L 36,5 L 35,10"
-        stroke="currentColor" strokeWidth="1.3" fill="none"
-      />
-    </svg>
-  );
-}
-
-// B — Diagonal 3D stack: four pines ascending from lower-left to upper-right,
-//     each smaller + higher + fainter, with a short base mark to ground each tree
-function LogoB({ size = 36 }: { size?: number }) {
+// Forest mark — three pines in a tight diagonal cluster, reading as one unit.
+function ForestMark({ size = 36 }: { size?: number }) {
+  // Shallow diagonal: trees share a close base range so they feel grouped
   const trees = [
-    { cx: 30, apex: 5,  hw: 5,  base: 19, o: 0.2,  sw: 0.85 },
-    { cx: 25, apex: 12, hw: 7,  base: 26, o: 0.42, sw: 1.0  },
-    { cx: 20, apex: 19, hw: 9,  base: 34, o: 0.65, sw: 1.15 },
-    { cx: 15, apex: 26, hw: 11, base: 42, o: 1.0,  sw: 1.35 },
+    { cx: 27, apex: 9,  hw: 5,   base: 30, o: 0.25, sw: 0.9  }, // back
+    { cx: 22, apex: 15, hw: 7,   base: 36, o: 0.6,  sw: 1.1  }, // mid
+    { cx: 17, apex: 21, hw: 9.5, base: 42, o: 1.0,  sw: 1.35 }, // front
   ];
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
       {trees.map((t, i) => (
         <g key={i} stroke="currentColor" strokeOpacity={t.o}
            strokeLinejoin="round" strokeLinecap="round">
-          {/* Triangle body */}
           <polygon
             points={`${t.cx},${t.apex} ${t.cx - t.hw},${t.base} ${t.cx + t.hw},${t.base}`}
             strokeWidth={t.sw} fill="none"
           />
-          {/* Base mark — short horizontal bar anchoring each tree to the ground */}
           <line
-            x1={t.cx - t.hw * 0.45} y1={t.base + 2}
-            x2={t.cx + t.hw * 0.45} y2={t.base + 2}
-            strokeWidth={t.sw * 1.1}
+            x1={t.cx - t.hw * 0.5} y1={t.base + 2.5}
+            x2={t.cx + t.hw * 0.5} y2={t.base + 2.5}
+            strokeWidth={t.sw * 1.2}
           />
         </g>
       ))}
@@ -60,28 +31,7 @@ function LogoB({ size = 36 }: { size?: number }) {
   );
 }
 
-// C — Stacked Rings: concentric circles fading inward — tree rings, forever
-function LogoC({ size = 36 }: { size?: number }) {
-  const rings = [21, 17, 13.5, 10.5, 8, 5.5, 3.2];
-  return (
-    <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-      {rings.map((r, i) => (
-        <circle key={r} cx="24" cy="24" r={r}
-          stroke="currentColor"
-          strokeWidth={i === 0 ? 1.4 : 1}
-          strokeOpacity={Math.max(0.12, 1 - i * 0.13)}
-        />
-      ))}
-      <circle cx="24" cy="24" r="1.2" fill="currentColor" fillOpacity="0.45" />
-    </svg>
-  );
-}
 
-const LOGOS = [
-  { id: 'A', label: 'Loop',   Component: LogoA },
-  { id: 'B', label: 'Forest', Component: LogoB },
-  { id: 'C', label: 'Rings',  Component: LogoC },
-];
 
 // ─── Brand guidelines (hidden from UI, preserved for future use) ──────────────
 // const BRAND_COLORS = [
@@ -97,9 +47,6 @@ const LOGOS = [
 export default function App() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [selected, setSelected] = useState('B');
-
-  const ActiveLogo = LOGOS.find(l => l.id === selected)!.Component;
 
   return (
     <div className="h-[100dvh] w-full overflow-hidden bg-background text-foreground flex flex-col relative select-none">
@@ -120,18 +67,6 @@ export default function App() {
         }}
       />
 
-      {/* ── Header ── */}
-      <motion.header
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-        transition={{ duration: 0.7 }}
-        className="relative z-10 flex items-center justify-between px-7 md:px-12 py-5 md:py-6"
-      >
-        <span className="font-mono text-[0.58rem] tracking-[0.22em] uppercase text-muted-foreground/50">
-          Evergreen Charity
-        </span>
-        <div className="h-px w-16 md:w-24 bg-border/30" />
-      </motion.header>
-
       {/* ── Main ── */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-12 text-center">
 
@@ -141,7 +76,7 @@ export default function App() {
           transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="text-primary mb-6"
         >
-          <ActiveLogo size={120} />
+          <ForestMark size={120} />
         </motion.div>
 
         {/* Wordmark */}
@@ -205,38 +140,6 @@ export default function App() {
           )}
         </motion.div>
 
-        {/* Logo chooser */}
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
-          className="mt-8 md:mt-10 flex flex-col items-center gap-3"
-        >
-          <span className="font-mono text-[0.46rem] tracking-[0.3em] uppercase text-muted-foreground/25">
-            Mark Options
-          </span>
-          <div className="flex gap-2">
-            {LOGOS.map((logo) => {
-              const active = selected === logo.id;
-              return (
-                <button key={logo.id} onClick={() => setSelected(logo.id)}
-                  className={`group flex flex-col items-center gap-1.5 py-3 px-5 border transition-all duration-400 ${
-                    active
-                      ? 'border-primary/40 bg-primary/5'
-                      : 'border-border/20 hover:border-border/40'
-                  }`}
-                >
-                  <span className={`transition-colors duration-300 ${active ? 'text-primary' : 'text-foreground/25 group-hover:text-foreground/50'}`}>
-                    <logo.Component size={30} />
-                  </span>
-                  <span className="font-mono text-[0.44rem] tracking-[0.15em] uppercase"
-                    style={{ color: active ? 'hsl(var(--primary) / 0.55)' : 'hsl(var(--muted-foreground) / 0.3)' }}>
-                    {logo.id} · {logo.label}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </motion.div>
       </main>
 
       {/* ── Footer (brand bar hidden — see BRAND_COLORS comment above to restore) ── */}
