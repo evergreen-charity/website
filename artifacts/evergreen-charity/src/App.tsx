@@ -29,15 +29,15 @@ function LogoA({ size = 36 }: { size?: number }) {
   );
 }
 
-// B — 3D stacked trees: four pines receding into depth, all centred,
-//     each smaller + higher + fainter — reads as a stack going back in space
+// B — Diagonal 3D stack: four pines ascending from lower-left to upper-right,
+//     each smaller + higher + fainter, no trunks — pure depth illusion
 function LogoB({ size = 36 }: { size?: number }) {
-  // back → front order for drawing (front drawn last, on top)
+  // drawn back → front so front tree sits on top
   const trees = [
-    { apex: 4,  hw: 5,   base: 17, o: 0.22, sw: 0.8 },
-    { apex: 11, hw: 7,   base: 24, o: 0.42, sw: 1.0 },
-    { apex: 18, hw: 9,   base: 32, o: 0.68, sw: 1.15 },
-    { apex: 25, hw: 11,  base: 41, o: 1.0,  sw: 1.35 },
+    { cx: 30, apex: 5,  hw: 5,  base: 19, o: 0.2,  sw: 0.85 },
+    { cx: 25, apex: 12, hw: 7,  base: 26, o: 0.42, sw: 1.0  },
+    { cx: 20, apex: 19, hw: 9,  base: 34, o: 0.65, sw: 1.15 },
+    { cx: 15, apex: 26, hw: 11, base: 42, o: 1.0,  sw: 1.35 },
   ];
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
@@ -45,13 +45,9 @@ function LogoB({ size = 36 }: { size?: number }) {
         <g key={i} stroke="currentColor" strokeOpacity={t.o}
            strokeLinejoin="round" strokeLinecap="round">
           <polygon
-            points={`24,${t.apex} ${24 - t.hw},${t.base} ${24 + t.hw},${t.base}`}
+            points={`${t.cx},${t.apex} ${t.cx - t.hw},${t.base} ${t.cx + t.hw},${t.base}`}
             strokeWidth={t.sw} fill="none"
           />
-          {/* Only the front tree gets a trunk */}
-          {i === trees.length - 1 && (
-            <line x1="24" y1={t.base} x2="24" y2={t.base + 4} strokeWidth={t.sw * 0.75} />
-          )}
         </g>
       ))}
     </svg>
@@ -184,13 +180,13 @@ export default function App() {
             </motion.p>
           ) : (
             <form onSubmit={(e) => { e.preventDefault(); if (email) setSubmitted(true); }}
-              className="flex border-b border-border/50 focus-within:border-primary/50 transition-colors duration-500 pb-px">
+              className="flex border-b border-border/60 focus-within:border-primary/60 transition-colors duration-500 pb-1">
               <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-                placeholder="Your email"
+                placeholder="your@email.com"
                 required
-                className="flex-1 bg-transparent py-2 font-mono text-[0.7rem] outline-none placeholder:text-muted-foreground/25 text-foreground tracking-wide" />
+                className="flex-1 bg-transparent py-2.5 font-mono text-[0.85rem] outline-none placeholder:text-muted-foreground/40 text-foreground tracking-wide" />
               <button type="submit"
-                className="pl-4 font-mono text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground/50 hover:text-primary transition-colors duration-300">
+                className="pl-5 font-mono text-[0.65rem] tracking-[0.2em] uppercase text-muted-foreground/60 hover:text-primary transition-colors duration-300">
                 Waitlist
               </button>
             </form>
