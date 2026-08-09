@@ -65,12 +65,11 @@ export default function App() {
       {/* ── Main ── */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-12 text-center">
 
-        {/* Hero logo mark — front and centre, glow ring */}
+        {/* Hero logo mark — front and centre */}
         <motion.div
           initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-primary mb-7 p-7 border border-primary/20 relative"
-          style={{ boxShadow: '0 0 48px hsl(152 90% 50% / 0.1), inset 0 0 32px hsl(152 90% 50% / 0.04)' }}
+          className="text-primary mb-7"
         >
           <ForestMark size={120} />
         </motion.div>
@@ -119,7 +118,7 @@ export default function App() {
             </motion.p>
           ) : (
             <form onSubmit={(e) => { e.preventDefault(); if (email) setSubmitted(true); }}
-              className="flex border-b border-border/60 focus-within:border-primary/60 transition-colors duration-500 pb-1">
+              className="flex border-b border-border/60 focus-within:border-primary/60 transition-colors duration-500 pb-1 select-text">
               <input type="email" value={email} onChange={e => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
