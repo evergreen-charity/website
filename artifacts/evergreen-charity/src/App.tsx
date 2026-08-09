@@ -30,9 +30,8 @@ function LogoA({ size = 36 }: { size?: number }) {
 }
 
 // B — Diagonal 3D stack: four pines ascending from lower-left to upper-right,
-//     each smaller + higher + fainter, no trunks — pure depth illusion
+//     each smaller + higher + fainter, with a short base mark to ground each tree
 function LogoB({ size = 36 }: { size?: number }) {
-  // drawn back → front so front tree sits on top
   const trees = [
     { cx: 30, apex: 5,  hw: 5,  base: 19, o: 0.2,  sw: 0.85 },
     { cx: 25, apex: 12, hw: 7,  base: 26, o: 0.42, sw: 1.0  },
@@ -44,9 +43,16 @@ function LogoB({ size = 36 }: { size?: number }) {
       {trees.map((t, i) => (
         <g key={i} stroke="currentColor" strokeOpacity={t.o}
            strokeLinejoin="round" strokeLinecap="round">
+          {/* Triangle body */}
           <polygon
             points={`${t.cx},${t.apex} ${t.cx - t.hw},${t.base} ${t.cx + t.hw},${t.base}`}
             strokeWidth={t.sw} fill="none"
+          />
+          {/* Base mark — short horizontal bar anchoring each tree to the ground */}
+          <line
+            x1={t.cx - t.hw * 0.45} y1={t.base + 2}
+            x2={t.cx + t.hw * 0.45} y2={t.base + 2}
+            strokeWidth={t.sw * 1.1}
           />
         </g>
       ))}
@@ -77,12 +83,14 @@ const LOGOS = [
   { id: 'C', label: 'Rings',  Component: LogoC },
 ];
 
-const BRAND_COLORS = [
-  { label: 'Void',   hex: '#0c0f0d' },
-  { label: 'Grove',  hex: '#4a8c68' },
-  { label: 'Ivory',  hex: '#e8e4d9' },
-  { label: 'Lichen', hex: '#7a9b85' },
-];
+// ─── Brand guidelines (hidden from UI, preserved for future use) ──────────────
+// const BRAND_COLORS = [
+//   { label: 'Void',   hex: '#0c0f0d' },
+//   { label: 'Grove',  hex: '#4a8c68' },
+//   { label: 'Ivory',  hex: '#e8e4d9' },
+//   { label: 'Lichen', hex: '#7a9b85' },
+// ];
+// Typefaces: Space Grotesk (display/body) · Space Mono (labels)
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 
@@ -118,49 +126,53 @@ export default function App() {
         transition={{ duration: 0.7 }}
         className="relative z-10 flex items-center justify-between px-7 md:px-12 py-5 md:py-6"
       >
-        <div className="flex items-center gap-3">
-          <span className="text-primary opacity-80"><ActiveLogo size={20} /></span>
-          <span className="font-mono text-[0.58rem] tracking-[0.22em] uppercase text-muted-foreground">
-            Evergreen Charity
-          </span>
-        </div>
-        {/* Handwritten-feel rule on right */}
+        <span className="font-mono text-[0.58rem] tracking-[0.22em] uppercase text-muted-foreground/50">
+          Evergreen Charity
+        </span>
         <div className="h-px w-16 md:w-24 bg-border/30" />
       </motion.header>
 
       {/* ── Main ── */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-12 text-center">
 
-        {/* Wordmark — Fraunces italic, big personality */}
+        {/* Hero logo mark — front and centre */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="text-primary mb-6"
+        >
+          <ActiveLogo size={120} />
+        </motion.div>
+
+        {/* Wordmark */}
         <motion.h1
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
           className="font-display font-semibold leading-[0.88] text-foreground uppercase"
           style={{
-            fontSize: 'clamp(2.8rem, 7.5vw, 6.5rem)',
-            letterSpacing: '0.06em',
+            fontSize: 'clamp(2rem, 5vw, 4rem)',
+            letterSpacing: '0.08em',
           }}
         >
-          Evergreen<br />
-          <span className="text-primary" style={{ letterSpacing: '0.08em' }}>Charity</span>
+          Evergreen <span className="text-primary">Charity</span>
         </motion.h1>
 
         {/* Thin ornamental rule */}
         <motion.div
           initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
-          transition={{ duration: 0.7, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-5 w-full max-w-[320px] flex items-center gap-2 origin-center"
+          transition={{ duration: 0.7, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-4 w-full max-w-[260px] flex items-center gap-2 origin-center"
         >
           <div className="flex-1 h-px bg-border/40" />
           <span className="text-primary/40 text-[0.6rem] leading-none">✦</span>
           <div className="flex-1 h-px bg-border/40" />
         </motion.div>
 
-        {/* Subtitle — Instrument Serif, reads like prose */}
+        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.46 }}
-          className="mt-4 max-w-[400px] text-[0.88rem] md:text-[0.95rem] leading-relaxed font-sans"
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-4 max-w-[380px] text-[0.88rem] md:text-[0.95rem] leading-relaxed font-sans"
           style={{ color: 'hsl(var(--foreground) / 0.6)', letterSpacing: '0.01em' }}
         >
           Endow permanent charitable funds for perpetual giving.
@@ -227,27 +239,7 @@ export default function App() {
         </motion.div>
       </main>
 
-      {/* ── Footer ── */}
-      <motion.footer
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.8 }}
-        className="relative z-10 flex items-center justify-between px-7 md:px-12 py-4 md:py-5"
-      >
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-[0.44rem] tracking-[0.25em] uppercase text-muted-foreground/20 mr-1">Brand</span>
-          {BRAND_COLORS.map(c => (
-            <div key={c.label} title={c.label} className="w-3.5 h-3.5 border border-white/5"
-              style={{ backgroundColor: c.hex }} />
-          ))}
-          <div className="w-px h-3 bg-border/20 mx-1.5" />
-          <span className="font-mono text-[0.44rem] tracking-[0.1em] uppercase text-muted-foreground/20">
-            Fraunces · Instrument Serif · DM Mono
-          </span>
-        </div>
-        <span className="font-mono text-[0.44rem] tracking-[0.15em] uppercase text-muted-foreground/15">
-          Donor Advised Fund
-        </span>
-      </motion.footer>
+      {/* ── Footer (brand bar hidden — see BRAND_COLORS comment above to restore) ── */}
     </div>
   );
 }
