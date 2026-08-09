@@ -51,30 +51,26 @@ export default function App() {
   return (
     <div className="h-[100dvh] w-full overflow-hidden bg-background text-foreground flex flex-col relative select-none">
 
-      {/* Grain texture overlay */}
-      <div className="absolute inset-0 pointer-events-none z-20 opacity-[0.035]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '200px 200px',
-        }}
-      />
+      {/* Grid */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: `linear-gradient(hsl(var(--grid-line) / 0.5) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--grid-line) / 0.5) 1px, transparent 1px)`,
+        backgroundSize: '64px 64px',
+      }} />
 
-      {/* Subtle warm vignette */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse 80% 70% at 50% 42%, hsl(var(--glow)) 0%, transparent 72%)'
-        }}
-      />
+      {/* Centre glow */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: 'radial-gradient(ellipse 60% 55% at 50% 44%, hsl(var(--glow)) 0%, transparent 70%)'
+      }} />
 
       {/* ── Main ── */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-12 text-center">
 
-        {/* Hero logo mark — front and centre */}
+        {/* Hero logo mark — front and centre, glow ring */}
         <motion.div
           initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-primary mb-6"
+          className="text-primary mb-7 p-7 border border-primary/20 relative"
+          style={{ boxShadow: '0 0 48px hsl(152 90% 50% / 0.1), inset 0 0 32px hsl(152 90% 50% / 0.04)' }}
         >
           <ForestMark size={120} />
         </motion.div>
@@ -92,16 +88,12 @@ export default function App() {
           Evergreen <span className="text-primary">Charity</span>
         </motion.h1>
 
-        {/* Thin ornamental rule */}
+        {/* Rule */}
         <motion.div
           initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
           transition={{ duration: 0.7, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-4 w-full max-w-[260px] flex items-center gap-2 origin-center"
-        >
-          <div className="flex-1 h-px bg-border/40" />
-          <span className="text-primary/40 text-[0.6rem] leading-none">✦</span>
-          <div className="flex-1 h-px bg-border/40" />
-        </motion.div>
+          className="mt-4 w-full max-w-[260px] h-px bg-primary/20 origin-center"
+        />
 
         {/* Subtitle */}
         <motion.p

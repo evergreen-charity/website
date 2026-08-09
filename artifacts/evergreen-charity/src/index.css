@@ -95,13 +95,13 @@
   --popover-foreground: 45 20% 85%;
   --popover-border: 160 15% 12%;
 
-  /* Accent green - bright but refined */
-  --primary: 158 60% 42%;
+  /* Accent green — electric, high saturation */
+  --primary: 152 90% 50%;
   --primary-foreground: 160 15% 5%;
 
   /* Grid and glow */
-  --grid-line: 160 20% 10% / 0.6;
-  --glow: 158 60% 42% / 0.06;
+  --grid-line: 152 40% 18%;
+  --glow: 152 90% 50% / 0.09;
 
   --secondary: 160 20% 12%;
   --secondary-foreground: 45 20% 85%;
