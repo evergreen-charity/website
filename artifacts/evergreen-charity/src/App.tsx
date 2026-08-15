@@ -147,7 +147,8 @@ export default function App() {
         <motion.p
           initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-3 max-w-[380px] text-[0.88rem] md:text-[0.95rem] leading-relaxed font-sans"
+          className="mt-3 max-w-[380px] text-[0.88rem] md:text-[0.95rem] leading-relaxed"
+          style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300 }}
           style={{ color: 'hsl(var(--foreground) / 0.6)', letterSpacing: '0.01em' }}
         >
           Endow permanent charitable funds for perpetual giving.
@@ -171,9 +172,11 @@ export default function App() {
               <input type="email" value={email} onChange={e => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
-                className="flex-1 bg-transparent py-2.5 font-mono text-[0.85rem] outline-none placeholder:text-foreground/50 text-foreground tracking-wide" />
+                style={{ fontFamily: "'DM Mono', monospace", fontWeight: 300 }}
+                className="flex-1 bg-transparent py-2.5 text-[0.85rem] outline-none placeholder:text-foreground/50 text-foreground tracking-wide" />
               <button type="submit"
-                className="pl-5 font-mono text-[0.65rem] tracking-[0.2em] uppercase text-muted-foreground/60 hover:text-primary transition-colors duration-300">
+                style={{ fontFamily: "'DM Mono', monospace", fontWeight: 300 }}
+                className="pl-5 text-[0.65rem] tracking-[0.2em] uppercase text-muted-foreground/60 hover:text-primary transition-colors duration-300">
                 Waitlist
               </button>
             </form>
