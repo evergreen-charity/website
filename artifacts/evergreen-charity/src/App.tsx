@@ -176,7 +176,7 @@ export default function App() {
                 className="flex-1 bg-transparent py-2.5 text-[0.85rem] outline-none placeholder:text-foreground/50 text-foreground tracking-wide" />
               <button type="submit"
                 style={{ fontFamily: "'DM Mono', monospace", fontWeight: 300 }}
-                className="pl-5 text-[0.65rem] tracking-[0.2em] uppercase text-muted-foreground/60 hover:text-primary transition-colors duration-300">
+                className="pl-5 text-[0.65rem] tracking-[0.2em] uppercase text-foreground/75 hover:text-primary transition-colors duration-300">
                 Waitlist
               </button>
             </form>
