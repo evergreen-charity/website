@@ -3,35 +3,59 @@ import { motion } from 'framer-motion';
 
 // ─── Mark ─────────────────────────────────────────────────────────────────────
 
-// Forest mark — three pines in a tight diagonal cluster, reading as one unit.
+// Forest mark — three pines in a tight diagonal cluster.
+// Uses motion.path so Framer Motion can animate pathLength (draw-on effect).
 function ForestMark({ size = 36 }: { size?: number }) {
-  // Shallow diagonal: trees share a close base range so they feel grouped
   const trees = [
-    { cx: 27, apex: 9,  hw: 5,   base: 30, o: 0.25, sw: 0.9  }, // back
-    { cx: 22, apex: 15, hw: 7,   base: 36, o: 0.6,  sw: 1.1  }, // mid
-    { cx: 17, apex: 21, hw: 9.5, base: 42, o: 1.0,  sw: 1.35 }, // front
+    { cx: 27, apex: 9,  hw: 5,   base: 30, o: 0.25, sw: 0.9,  delay: 0.35 }, // back  — draws first
+    { cx: 22, apex: 15, hw: 7,   base: 36, o: 0.6,  sw: 1.1,  delay: 0.55 }, // mid
+    { cx: 17, apex: 21, hw: 9.5, base: 42, o: 1.0,  sw: 1.35, delay: 0.78 }, // front — draws last
   ];
+
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-      {trees.map((t, i) => (
-        <g key={i} stroke="currentColor" strokeOpacity={t.o}
-           strokeLinejoin="round" strokeLinecap="round">
-          <polygon
-            points={`${t.cx},${t.apex} ${t.cx - t.hw},${t.base} ${t.cx + t.hw},${t.base}`}
-            strokeWidth={t.sw} fill="none"
-          />
-          <line
-            x1={t.cx - t.hw * 0.5} y1={t.base + 2.5}
-            x2={t.cx + t.hw * 0.5} y2={t.base + 2.5}
-            strokeWidth={t.sw * 1.2}
-          />
-        </g>
-      ))}
+      {trees.map((t, i) => {
+        const triPath = `M${t.cx},${t.apex} L${t.cx - t.hw},${t.base} L${t.cx + t.hw},${t.base} Z`;
+        const trunkPath = `M${t.cx - t.hw * 0.5},${t.base + 2.5} L${t.cx + t.hw * 0.5},${t.base + 2.5}`;
+        return (
+          <g key={i}>
+            {/* Triangle outline */}
+            <motion.path
+              d={triPath}
+              stroke="currentColor"
+              strokeOpacity={t.o}
+              strokeWidth={t.sw}
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              fill="none"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{
+                pathLength: { duration: 1.1 + i * 0.12, delay: t.delay, ease: [0.25, 1, 0.5, 1] },
+                opacity:    { duration: 0.01, delay: t.delay },
+              }}
+            />
+            {/* Trunk stub */}
+            <motion.path
+              d={trunkPath}
+              stroke="currentColor"
+              strokeOpacity={t.o}
+              strokeWidth={t.sw * 1.2}
+              strokeLinecap="round"
+              fill="none"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{
+                pathLength: { duration: 0.4, delay: t.delay + 0.9, ease: "easeOut" },
+                opacity:    { duration: 0.01, delay: t.delay + 0.9 },
+              }}
+            />
+          </g>
+        );
+      })}
     </svg>
   );
 }
-
-
 
 // ─── Brand guidelines (hidden from UI, preserved for future use) ──────────────
 // const BRAND_COLORS = [
@@ -58,10 +82,15 @@ export default function App() {
         backgroundSize: '64px 64px',
       }} />
 
-      {/* Centre glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'radial-gradient(ellipse 60% 55% at 50% 44%, hsl(var(--glow)) 0%, transparent 70%)'
-      }} />
+      {/* Centre glow — breathes slowly */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        animate={{ opacity: [0.75, 1, 0.75] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          background: 'radial-gradient(ellipse 60% 55% at 50% 44%, hsl(var(--glow)) 0%, transparent 70%)'
+        }}
+      />
 
       {/* Porch light beam — full-page radial anchored at the lamp head */}
       <div className="absolute inset-0 pointer-events-none z-10" style={{
@@ -115,19 +144,19 @@ export default function App() {
       {/* ── Main ── */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-12 text-center">
 
-        {/* Hero logo mark — front and centre */}
+        {/* Hero logo mark — draw-on entrance */}
         <motion.div
           initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="text-primary mb-5"
         >
           <ForestMark size={120} />
         </motion.div>
 
-        {/* Wordmark */}
+        {/* Wordmark — delayed until logo is mostly drawn */}
         <motion.h1
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
           className="font-display font-semibold leading-[0.88] uppercase"
           style={{
             fontSize: 'clamp(2rem, 5vw, 4rem)',
@@ -140,17 +169,16 @@ export default function App() {
         {/* Rule */}
         <motion.div
           initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
-          transition={{ duration: 0.7, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.7, delay: 1.75, ease: [0.16, 1, 0.3, 1] }}
           className="mt-3 w-full max-w-[260px] h-px bg-primary/20 origin-center"
         />
 
         {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ duration: 0.6, delay: 1.85 }}
           className="mt-3 max-w-[380px] text-[0.88rem] md:text-[0.95rem] leading-relaxed"
-          style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300 }}
-          style={{ color: 'hsl(var(--foreground) / 0.6)', letterSpacing: '0.01em' }}
+          style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, color: 'hsl(var(--foreground) / 0.6)', letterSpacing: '0.01em' }}
         >
           Endow permanent charitable funds for perpetual giving.
           Grant now, or invest and grant over time.
@@ -159,7 +187,7 @@ export default function App() {
         {/* Email */}
         <motion.div
           initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.58 }}
+          transition={{ duration: 0.5, delay: 1.95 }}
           className="mt-5 w-full max-w-[270px]"
         >
           {submitted ? (
