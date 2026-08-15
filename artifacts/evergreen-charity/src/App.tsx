@@ -47,6 +47,7 @@ function ForestMark({ size = 36 }: { size?: number }) {
 export default function App() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   return (
     <div className="h-[100dvh] w-full overflow-hidden bg-background text-foreground flex flex-col relative">
@@ -167,17 +168,32 @@ export default function App() {
               We'll be in touch.
             </motion.p>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); if (email) setSubmitted(true); }}
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                if (!email) return;
+                setSubmitting(true);
+                try {
+                  await fetch('https://formspree.io/f/mrpzabwq', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                    body: JSON.stringify({ email }),
+                  });
+                } finally {
+                  setSubmitting(false);
+                  setSubmitted(true);
+                }
+              }}
               className="flex border-b border-border/50 focus-within:border-primary/50 transition-colors duration-500 pb-1 select-text">
               <input type="email" value={email} onChange={e => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
                 style={{ fontFamily: "'DM Mono', monospace", fontWeight: 300 }}
                 className="flex-1 bg-transparent py-2.5 text-[0.85rem] outline-none placeholder:text-foreground/50 text-foreground tracking-wide" />
-              <button type="submit"
+              <button type="submit" disabled={submitting}
                 style={{ fontFamily: "'DM Mono', monospace", fontWeight: 300 }}
-                className="pl-5 text-[0.65rem] tracking-[0.2em] uppercase text-foreground/75 hover:text-primary transition-colors duration-300">
-                Waitlist
+                className="pl-5 text-[0.65rem] tracking-[0.2em] uppercase text-foreground/75 hover:text-primary transition-colors duration-300 disabled:opacity-40">
+                {submitting ? '...' : 'Waitlist'}
               </button>
             </form>
           )}
