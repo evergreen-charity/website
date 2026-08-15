@@ -22,3 +22,6 @@ timeoutMs = 20000
 [[ports]]
 localPort = 18523
 externalPort = 80
+
+[nix]
+packages = ["dig"]
