@@ -177,7 +177,7 @@ export default function App() {
         <motion.p
           initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.85 }}
-          className="mt-3 max-w-[380px] text-[0.97rem] md:text-[1.08rem] leading-relaxed"
+          className="mt-3 max-w-[500px] text-[0.97rem] md:text-[1.08rem] leading-relaxed"
           style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, color: 'hsl(var(--foreground) / 0.6)', letterSpacing: '0.01em' }}
         >
           Endow permanent charitable funds for perpetual giving.<br />
