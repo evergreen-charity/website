@@ -177,7 +177,7 @@ export default function App() {
         <motion.p
           initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.85 }}
-          className="mt-3 max-w-[380px] text-[0.88rem] md:text-[0.95rem] leading-relaxed"
+          className="mt-3 max-w-[380px] text-[0.97rem] md:text-[1.08rem] leading-relaxed"
           style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, color: 'hsl(var(--foreground) / 0.6)', letterSpacing: '0.01em' }}
         >
           Endow permanent charitable funds for perpetual giving.
@@ -217,7 +217,7 @@ export default function App() {
                 placeholder="your@email.com"
                 required
                 style={{ fontFamily: "'DM Mono', monospace", fontWeight: 300 }}
-                className="flex-1 bg-transparent py-2.5 text-[0.85rem] outline-none placeholder:text-foreground/50 text-foreground tracking-wide" />
+                className="flex-1 bg-transparent py-2.5 text-[0.95rem] outline-none placeholder:text-foreground/50 text-foreground tracking-wide" />
               <button type="submit" disabled={submitting}
                 style={{ fontFamily: "'DM Mono', monospace", fontWeight: 300 }}
                 className="pl-5 text-[0.65rem] tracking-[0.2em] uppercase text-foreground/75 hover:text-primary transition-colors duration-300 disabled:opacity-40">
