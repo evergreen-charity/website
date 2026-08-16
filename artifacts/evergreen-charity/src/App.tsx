@@ -180,7 +180,7 @@ export default function App() {
           className="mt-3 max-w-[380px] text-[0.97rem] md:text-[1.08rem] leading-relaxed"
           style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 300, color: 'hsl(var(--foreground) / 0.6)', letterSpacing: '0.01em' }}
         >
-          Endow permanent charitable funds for perpetual giving.
+          Endow permanent charitable funds for perpetual giving.<br />
           Grant now, or invest and grant over time.
         </motion.p>
 
