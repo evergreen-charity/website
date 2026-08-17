@@ -1,0 +1,9 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "YuiEOO1zGPks8ycTvO-Zb"
+uri = "file://artifacts/evergreen-charity/public/og-image.jpg"
+type = "image"
+title = "Evergreen Charity — Social Card"
+description = "og:image shown when the site is shared on LinkedIn, Twitter, iMessage, etc."
